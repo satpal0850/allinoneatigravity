@@ -15,6 +15,9 @@ L = instaloader.Instaloader(
 def is_instagram(url: str) -> bool:
     return "instagram.com" in urlparse(url).netloc
 
+def is_snapchat(url: str) -> bool:
+    return "snapchat.com" in urlparse(url).netloc
+
 def extract_instagram(url: str, extract_audio: bool = False) -> dict:
     """
     Handle Instagram specifically.
@@ -44,8 +47,57 @@ def extract_instagram(url: str, extract_audio: bool = False) -> dict:
         return {"error": f"Instagram extraction failed: {str(e)}"}
 
 
+def extract_snapchat(url: str, extract_audio: bool = False) -> dict:
+    """Dedicated yt-dlp extractor for Snapchat. Avoids extract_flat which causes issues on Spotlight."""
+    ydl_opts = {
+        'quiet': True,
+        'no_warnings': True,
+        'format': 'bestaudio/best' if extract_audio else 'best',
+        # Do NOT use 'extract_flat' here as it breaks Spotlight/Story extraction
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+    }
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            
+            # If the extraction returned a playlist, grab the first entry
+            if 'entries' in info and info['entries']:
+                info = info['entries'][0]
+
+            title = info.get('title', 'Snapchat Media')
+            thumbnail = info.get('thumbnail', '')
+            author = info.get('uploader', info.get('creator', 'Snapchat User'))
+            
+            downloads = []
+            
+            if info.get('url'):
+                downloads.append({
+                    "url": info['url'],
+                    "ext": info.get('ext', 'mp3' if extract_audio else 'mp4'),
+                    "resolution": f"{info.get('height', 'HD')}p" if info.get('height') else ("Audio" if extract_audio else "HD")
+                })
+            
+            if not downloads:
+                return {"error": "Could not extract direct stream link from Snapchat."}
+                
+            return {
+                "title": title,
+                "thumbnail": thumbnail,
+                "author": author,
+                "downloads": downloads,
+                "type": "audio" if extract_audio else "video"
+            }
+            
+    except yt_dlp.utils.DownloadError as e:
+        return {"error": f"Failed to download information from Snapchat: {str(e)}"}
+    except Exception as e:
+         return {"error": f"An unexpected error occurred: {str(e)}"}
+
 def extract_with_ytdlp(url: str, extract_audio: bool = False) -> dict:
-    """Generic yt-dlp extractor for TikTok, Pinterest, Bluesky, Snapchat, Twitch, etc."""
+    """Generic yt-dlp extractor for TikTok, Pinterest, Bluesky, Twitch, etc."""
     
     ydl_opts = {
         'quiet': True,
@@ -95,8 +147,10 @@ def extract_media(url: str, format_type: str = "video") -> dict:
     # Specific handlers
     if is_instagram(url):
          result = extract_instagram(url, extract_audio)
+    elif is_snapchat(url):
+         result = extract_snapchat(url, extract_audio)
     else:
-        # yt-dlp natively supports TikTok, Twitch, Pinterest, Snapchat, Bluesky
+        # yt-dlp natively supports TikTok, Twitch, Pinterest, Bluesky
         result = extract_with_ytdlp(url, extract_audio)
         
     return result

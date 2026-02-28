@@ -50,9 +50,14 @@ async def download_media(request: DownloadRequest):
 @app.get("/api/proxy_download")
 async def proxy_download(url: str, ext: str = "mp4", title: str = "media"):
     async def stream_file():
-        async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
-            async with client.stream("GET", url) as response:
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "*/*"
+        }
+        async with httpx.AsyncClient(timeout=60.0, follow_redirects=True) as client:
+            async with client.stream("GET", url, headers=headers) as response:
                 if response.status_code != 200:
+                    print(f"Proxy download failed with status {response.status_code} for URL: {url}")
                     yield b""
                     return
                 async for chunk in response.aiter_bytes():
@@ -124,4 +129,5 @@ def render_page(request: Request, lang: str, platform: str):
     })
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
