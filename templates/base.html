@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="{{ lang.code }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }} - {{ lang.appTitle }}</title>
+    <meta name="description" content="{{ page_desc }}">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-animation">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+
+    <nav class="glass-nav">
+        <div class="logo">
+            <a href="/{{ lang.code }}/" style="text-decoration: none; color: inherit;">
+                <i class="fa-solid fa-cloud-arrow-down"></i> <span>{{ lang.appTitle }}</span>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="/{{ lang.code }}/contact" class="api-link">Contact Us</a>
+            <a href="/docs" target="_blank" class="api-link">{{ lang.apiDocs }}</a>
+            <div class="language-dropdown">
+                <button id="lang-btn"><i class="fa-solid fa-globe"></i> <span id="current-lang">{{ lang.name }}</span>
+                    <i class="fa-solid fa-caret-down"></i></button>
+                <ul id="lang-list" class="glass-dropdown">
+                    {% for code, info in all_langs.items() %}
+                    <li><a href="/{{ code }}/{{ platform_path }}"
+                            style="color: inherit; text-decoration: none; display: block;">{{ info.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if is_home %}
+    <div class="sub-nav">
+        <a href="/{{ lang.code }}/" class="plat-link {% if platform == 'all' %}active{% endif %}">{{ lang.navAll }}</a>
+        <a href="/{{ lang.code }}/instagram" class="plat-link {% if platform == 'instagram' %}active{% endif %}">{{
+            lang.navIg }}</a>
+        <a href="/{{ lang.code }}/tiktok" class="plat-link {% if platform == 'tiktok' %}active{% endif %}">{{ lang.navTt
+            }}</a>
+        <a href="/{{ lang.code }}/snapchat" class="plat-link {% if platform == 'snapchat' %}active{% endif %}">{{
+            lang.navSnap }}</a>
+    </div>
+    {% endif %}
+
+    <div class="page-layout">
+        <!-- Left Ad Space -->
+        <aside class="ad-space left-ad">
+            <div class="ad-placeholder">Advertisement</div>
+        </aside>
+
+        <!-- Main Content Layout -->
+        <main class="container">
+            {% block content %}{% endblock %}
+
+            {% if is_home %}
+            <div class="seo-section glass-panel" style="margin-top: 2rem;">
+                <h2 style="margin-bottom: 2rem; text-align: center;">{{ lang.seoHeader }}</h2>
+                <div class="seo-text" style="text-align: left; background: transparent;">
+                    {{ lang.seoText | safe }}
+                </div>
+            </div>
+            {% endif %}
+        </main>
+
+        <!-- Right Ad Space -->
+        <aside class="ad-space right-ad">
+            <div class="ad-placeholder">Advertisement</div>
+        </aside>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const langBtn = document.getElementById("lang-btn");
+            const languageDropdown = document.querySelector(".language-dropdown");
+            if (langBtn) {
+                langBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    languageDropdown.classList.toggle("active");
+                });
+                document.addEventListener("click", () => {
+                    languageDropdown.classList.remove("active");
+                });
+            }
+        });
+        const SERVER_LANG = "{{ lang.code }}";
+        const SERVER_DICT = {{ lang | tojson }};
+    </script>
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

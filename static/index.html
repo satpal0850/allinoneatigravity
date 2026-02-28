@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Video Downloader</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-animation">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+
+    <nav class="glass-nav">
+        <div class="logo">
+            <i class="fa-solid fa-cloud-arrow-down"></i> <span data-i18n="appTitle">All-In-One Downloader</span>
+        </div>
+        <div class="nav-links">
+            <a href="/docs" target="_blank" class="api-link" data-i18n="apiDocs">API Docs</a>
+            <div class="language-dropdown">
+                <button id="lang-btn"><i class="fa-solid fa-globe"></i> <span id="current-lang">English</span> <i
+                        class="fa-solid fa-caret-down"></i></button>
+                <ul id="lang-list" class="glass-dropdown">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sub-nav">
+        <a href="#all" class="plat-link active" data-i18n="navAll" data-target="all">All-in-One</a>
+        <a href="#instagram" class="plat-link" data-i18n="navIg" data-target="instagram">Instagram Reel</a>
+        <a href="#tiktok" class="plat-link" data-i18n="navTt" data-target="tiktok">TikTok</a>
+        <a href="#snapchat" class="plat-link" data-i18n="navSnap" data-target="snapchat">Snapchat</a>
+    </div>
+
+    <main class="container">
+        <div class="hero glass-panel">
+            <h1 data-i18n="heroTitle">Download Media Instantly</h1>
+            <p data-i18n="heroSubtitle">Support for Instagram, Pinterest, TikTok, Bluesky, Twitch, Snapchat & more!</p>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-link input-icon"></i>
+                    <input type="text" id="url-input" data-i18n-placeholder="inputPlaceholder"
+                        placeholder="Paste link here..." autocomplete="off">
+                    <button id="paste-btn" class="icon-btn" title="Paste"><i
+                            class="fa-regular fa-clipboard"></i></button>
+                </div>
+            </div>
+
+            <div class="format-toggle">
+                <input type="radio" id="format-video" name="format" value="video" checked>
+                <label for="format-video" data-i18n="formatVideo"><i class="fa-solid fa-video"></i> Video</label>
+
+                <input type="radio" id="format-audio" name="format" value="audio">
+                <label for="format-audio" data-i18n="formatAudio"><i class="fa-solid fa-music"></i> Audio (MP3)</label>
+            </div>
+
+            <button id="download-btn" class="primary-btn">
+                <i class="fa-solid fa-download"></i> <span data-i18n="downloadBtn">Download</span>
+            </button>
+
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p data-i18n="processing">Processing your request...</p>
+            </div>
+
+            <div id="error-message" class="hidden error-box"></div>
+        </div>
+
+        <div id="result-container" class="result-glass hidden">
+            <!-- Results populate here -->
+        </div>
+
+        <div class="seo-section glass-panel">
+            <h2 data-i18n="seoHeader" style="margin-bottom: 2rem; text-align: center;">How to Download Videos</h2>
+            <div class="seo-steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <h3 data-i18n="step1Title">Copy the Link</h3>
+                    <p data-i18n="step1Desc">Find the video you want to download and copy its URL from the app or
+                        browser.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <h3 data-i18n="step2Title">Paste & Select</h3>
+                    <p data-i18n="step2Desc">Paste the link into the input box above and choose your desired format
+                        (Video or Audio).</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <h3 data-i18n="step3Title">Download Instantly</h3>
+                    <p data-i18n="step3Desc">Hit the download button and save the media securely directly to your
+                        device.</p>
+                </div>
+            </div>
+            <div class="seo-text">
+                <p data-i18n="seoFooterText">Our free, fast, and secure video downloader supports major platforms like
+                    Instagram, TikTok, Snapchat, Bluesky, Pinterest, and Twitch. No login required, and everything
+                    happens directly on your device. Easily download high quality media in Mp4 or Mp3 formats instantly.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

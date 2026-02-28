@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero glass-panel">
+    <h1>{{ page_title }}</h1>
+    <p>{{ page_desc }}</p>
+
+    <div class="input-group">
+        <div class="input-wrapper">
+            <i class="fa-solid fa-link input-icon"></i>
+            <input type="text" id="url-input" placeholder="{{ lang.inputPlaceholder }}" autocomplete="off">
+            <button id="paste-btn" class="icon-btn" title="Paste"><i class="fa-regular fa-clipboard"></i></button>
+        </div>
+    </div>
+
+    <div class="format-toggle">
+        <input type="radio" id="format-video" name="format" value="video" checked>
+        <label for="format-video"><i class="fa-solid fa-video"></i> {{ lang.formatVideo }}</label>
+
+        <input type="radio" id="format-audio" name="format" value="audio">
+        <label for="format-audio"><i class="fa-solid fa-music"></i> {{ lang.formatAudio }}</label>
+    </div>
+
+    <button id="download-btn" class="primary-btn">
+        <i class="fa-solid fa-download"></i> <span>{{ lang.downloadBtn }}</span>
+    </button>
+
+    <div id="loading" class="hidden">
+        <div class="spinner"></div>
+        <p>{{ lang.processing }}</p>
+    </div>
+
+    <div id="error-message" class="hidden error-box"></div>
+</div>
+
+<div id="result-container" class="result-glass hidden" style="margin-top: 2rem;">
+    <!-- Results populate here -->
+</div>
+{% endblock %}

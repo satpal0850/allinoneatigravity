@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero glass-panel">
+    <h1>Contact Our Team</h1>
+    <p>We're here to help you solve any issues with our downloader.</p>
+
+    <div style="text-align: left; margin-top: 2rem;">
+        <h3>Get in Touch</h3>
+        <p style="margin-top: 1rem;"><i class="fa-solid fa-envelope"></i> Email: support@example.com</p>
+        <p style="margin-top: 0.5rem;"><i class="fa-solid fa-phone"></i> Phone: +1-800-555-0199</p>
+        <p style="margin-top: 0.5rem;"><i class="fa-solid fa-location-dot"></i> Address: 123 Downloading Lane, Server
+            City, Cloud 9</p>
+
+        <form style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+            <input type="text" placeholder="Your Name"
+                style="padding: 1rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); color: white; outline: none;">
+            <input type="email" placeholder="Your Email"
+                style="padding: 1rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); color: white; outline: none;">
+            <textarea rows="5" placeholder="How can we help?"
+                style="padding: 1rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); color: white; outline: none;"></textarea>
+            <button type="button" class="primary-btn">Send Message</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
